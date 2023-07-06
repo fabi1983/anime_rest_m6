@@ -68,6 +68,21 @@ app.put('/anime/:id', async( req, res ) => {
 })
 
 
+app.delete('/anime/:id', async( req, res ) => {
+    const { id } = req.params
+    const animesOriginal = await fs.readFile('anime.json')
+    const objetoAnimesOriginal = JSON.parse(animesOriginal);
+
+    delete objetoAnimesOriginal[id]
+
+    await fs.writeFile('anime.json', JSON.stringify(objetoAnimesOriginal, null, 2)) 
+    
+    res.send("El comic ha sido eliminado exitosamente");
+
+})
+
+
+
 
 
 
