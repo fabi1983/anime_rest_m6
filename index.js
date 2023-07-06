@@ -47,6 +47,28 @@ app.post('/anime', async( req, res ) => {
 })
 
 
+// actualizar 1 anime
+app.put('/anime/:id', async( req, res ) => {
+    const { id } = req.params
+    //console.log(id)
+    const lecturaArchivo = await fs.readFile('anime.json')
+    const objetoArchivoOriginal = JSON.parse(lecturaArchivo)
+
+    const animeParaModificar = req.body;
+    
+    const animeOriginal = objetoArchivoOriginal[id]
+
+    const animeActualizado = { ...animeOriginal, ...animeParaModificar }
+    
+    objetoArchivoOriginal[id] = animeActualizado
+
+    await fs.writeFile('anime.json', JSON.stringify(objetoArchivoOriginal, null, 2));
+    // console.log(animeOriginal)
+    res.send(`Los datos del comics N°: ${id}, \n fueron actualizados exitosamente`)
+})
+
+
+
 
 
 app.listen(PORT, ()=>{
